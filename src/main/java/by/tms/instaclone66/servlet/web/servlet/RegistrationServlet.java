@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -22,7 +23,12 @@ public class RegistrationServlet extends HttpServlet {
         String username = req.getParameter("userName");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        userService.create(username,email,password);
+        try {
+            userService.create(username,email,password);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        req.setAttribute("message","Registration is Success");
         resp.sendRedirect("/Home");
 
 

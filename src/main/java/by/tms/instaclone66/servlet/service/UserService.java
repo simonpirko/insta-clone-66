@@ -4,6 +4,8 @@ import by.tms.instaclone66.servlet.entity.User;
 import by.tms.instaclone66.servlet.storage.JdbcUserStorage;
 import by.tms.instaclone66.servlet.storage.UserStorage;
 
+import java.sql.SQLException;
+
 public class UserService {
     private static UserService instance;
 
@@ -17,9 +19,10 @@ public class UserService {
         }
         return instance;
     }
-    private final UserStorage userStorage = (UserStorage) new JdbcUserStorage();
-    public void create (String userName,String email,String password){
+    private final JdbcUserStorage jdbcUserStorage =  new JdbcUserStorage();
+    public void create (String userName,String email,String password) throws SQLException, ClassNotFoundException {
         User user = new User(userName,email,password);
+        jdbcUserStorage.save(user);
 
     }
 }
