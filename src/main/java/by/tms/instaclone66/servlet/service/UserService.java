@@ -19,9 +19,11 @@ public class UserService {
         }
         return instance;
     }
-    private final JdbcUserStorage jdbcUserStorage =  new JdbcUserStorage();
-    public void create (String userName,String email,String password) throws SQLException, ClassNotFoundException {
-        User user = new User(userName,email,password);
+
+    private final JdbcUserStorage jdbcUserStorage = new JdbcUserStorage();
+
+    public void create(String userName, String email, String password) throws SQLException, ClassNotFoundException {
+        User user = new User(userName, email, password);
         jdbcUserStorage.save(user);
 
     }

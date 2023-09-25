@@ -13,9 +13,10 @@ import java.sql.SQLException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
     private final UserService userService = UserService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req,resp);
+        getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
     }
 
     @Override
@@ -24,11 +25,11 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         try {
-            userService.create(username,email,password);
+            userService.create(username, email, password);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("message","Registration is Success");
+        req.setAttribute("message", "Registration is Success");
         resp.sendRedirect("/Home");
 
 

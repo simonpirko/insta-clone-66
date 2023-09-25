@@ -9,7 +9,11 @@ import java.sql.SQLException;
 
 
 public class JdbcUserStorage implements UserStorage {
-    private static final String INSERT_QUERY = "INSERT INTO userName(userName,email,password) VALUES (?,?,?)";
+    private static final String INSERT_QUERY;
+
+    static {
+        INSERT_QUERY = "INSERT INTO Users(userName,email,password) VALUES (?,?,?)";
+    }
 
     @Override
     public void save(User user) throws ClassNotFoundException, SQLException {
