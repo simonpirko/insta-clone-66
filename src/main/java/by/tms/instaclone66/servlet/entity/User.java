@@ -28,6 +28,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", biography='" + biography + '\'' +
                 ", avatar='" + avatar + '\'' +
-                '}';
+                '}';//
     }
 }
