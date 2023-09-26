@@ -17,6 +17,7 @@
     <input type="password" name="password" placeholder="Password">
     <button>Submit</button>
 </form>
+<p>${existsEmail}</p>
 <p>${message}</p>
 </body>
 </html>

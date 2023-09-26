@@ -29,15 +29,16 @@ public class RegistrationServlet extends HttpServlet {
         User user = new User(username, email, password);
         Optional<User> exists = userService.getByEmail(email);
         if (exists.isPresent()) {
-            User existsUser = exists.get();
-            if (existsUser.getEmail().equals(email)) {
-                req.getSession().setAttribute("existsUser", "Email is taken, please select another email");
+            User existsEmail = exists.get();
+            if (existsEmail.getEmail().equals(email)) {
+                req.getSession().setAttribute("existsEmail", "Email is taken, please select another email");
                 req.getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
             }
         } else {
             try {
                 userService.create(username, email, password);
                 req.getServletContext().setAttribute("message", "Registration is Success");
+                req.getServletContext().getRequestDispatcher("/pages/Home.jsp").forward(req,resp);
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

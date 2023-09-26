@@ -11,6 +11,15 @@ import java.util.Optional;
 
 
 public class JdbcUserStorage implements UserStorage {
+    private static JdbcUserStorage instance;
+    private JdbcUserStorage(){}
+
+    public static JdbcUserStorage getInstance(){
+        if(instance == null){
+            instance = new JdbcUserStorage();
+        }
+        return instance;
+    }
     private static final String INSERT_QUERY;
     private static final String SELECT_EMAIL_QUERY;
 
