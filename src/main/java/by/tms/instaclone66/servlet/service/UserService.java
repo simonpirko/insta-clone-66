@@ -5,6 +5,7 @@ import by.tms.instaclone66.servlet.storage.JdbcUserStorage;
 import by.tms.instaclone66.servlet.storage.UserStorage;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class UserService {
     private static UserService instance;
@@ -27,4 +28,7 @@ public class UserService {
         jdbcUserStorage.save(user);
 
     }
-}
+    public Optional<User> getByEmail(String email) {
+        return jdbcUserStorage.findByEmail(email);
+    }
+        }

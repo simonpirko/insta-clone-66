@@ -5,13 +5,17 @@ import by.tms.instaclone66.servlet.service.SqlConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 
 public class JdbcUserStorage implements UserStorage {
     private static final String INSERT_QUERY;
+    private static final String SELECT_EMAIL_QUERY;
 
     static {
+        SELECT_EMAIL_QUERY = "SELECT * FROM Users WHERE email = ?";
         INSERT_QUERY = "INSERT INTO Users(userName,email,password) VALUES (?,?,?)";
     }
 
@@ -26,7 +30,33 @@ public class JdbcUserStorage implements UserStorage {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        User user = new User();
+        try (Connection connection = SqlConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMAIL_QUERY);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String userName = resultSet.getString("userName");
+                String newEmail = resultSet.getString("email");
+                String password = resultSet.getString("password");
+               user.setUserName(userName);
+               user.setEmail(newEmail);
+               user.setPassword(password);
+            }
+            if (user.getEmail() != null) {
+                return Optional.of(user);
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
