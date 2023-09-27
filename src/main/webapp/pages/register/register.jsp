@@ -1,0 +1,124 @@
+<%@ page import="java.util.Base64" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Register Form</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<jsp:include page="../../header/header.jsp"></jsp:include>
+<c:if test="${sessionScope.author == null}">
+<div class="container col-md-3 col-md-offset-3" style="overflow: auto">
+    <h2>User Register Form</h2>
+    <div class="alert alert-success center" role="alert">
+        <p>${NOTIFICATION}</p>
+    </div>
+    <form action="<%=request.getContextPath()%>/register" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="username">User Name:</label> <input type="text"
+                                                            class="form-control" id="username" placeholder="User Name"
+                                                            name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label> <input type="email"
+                                                     class="form-control" id="email" placeholder="Email"
+                                                     name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label> <input type="text"
+                                                           class="form-control" id="password" placeholder="Password"
+                                                           name="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Choose a profile photo:</label>
+            <input class="form-control" type="file" id="formFile" name="avatar">
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio:</label> <input type="text"
+                                                 class="form-control" id="bio" placeholder="Bio"
+                                                 name="bio" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+</c:if>
+<c:if test="${sessionScope.author != null}">
+    <div class="container col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <c:if test="${sessionScope.author != null}">
+                <form action="update" method="post">
+                    </c:if>
+                    <c:if test="${sessionScope.author == null}">
+                    <form action="insert" method="post">
+                        </c:if>
+
+                        <caption>
+                            <h2>
+                                <c:if test="${sessionScope.author != null}">
+                                    Edit Stories
+                                </c:if>
+                                <c:if test="${sessionScope.author == null}">
+                                    Add New Stories
+                                </c:if>
+                            </h2>
+                        </caption>
+
+                        <c:if test="${sessionScope.author != null}">
+<%--                            <%--%>
+<%--                                byte[] photoData = (byte[]) request.getAttribute("dataAvatar");--%>
+<%--                            %>--%>
+                            <img src="data:image/jpeg;base64,${dataAvatar}" alt="User Avatar">
+
+<%--                            <input type="hidden" name="id" value="<c:out value='${author.userName}' />"/>--%>
+                        </c:if>
+
+<%--                            <fieldset class="form-group">
+                                <label>Username</label> <input type="text"
+                                                                    value="<c:out value='${author.username}' />" class="form-control"
+                                                                    name="title" required="required" minlength="2">
+                            </fieldset>--%>
+
+                        <fieldset class="form-group">
+                            <label>Email</label> <input type="text"
+                                                                value="<c:out value='${author.email}' />" class="form-control"
+                                                                name="title" required="required" minlength="2">
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Registration date</label> <input type="text"
+                                                                      value="<c:out value='${author.registrationOfDate}' />"
+                                                                      class="form-control"
+                                                                      name="description" minlength="2">
+                        </fieldset>
+
+
+                        <fieldset class="form-group">
+                            <label>Profile Status</label> <select class="form-control"
+                                                                  name="isDone">
+                            <option value="false">Private </option>
+                            <option value="true">Public </option>
+                        </select>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Publication end date</label> <input type="date"
+                                                                      value="<c:out value='${author.registrationOfDate}' />"
+                                                                      class="form-control"
+                                                                      name="targetDate" required="required">
+                        </fieldset>
+
+                        <button type="submit" class="btn btn-success">Publish</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+</c:if>
+<jsp:include page="../../footer/footer.jsp"></jsp:include>
+</body>
+</html>
