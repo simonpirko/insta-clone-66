@@ -52,11 +52,8 @@ public class RegistrationServlet extends HttpServlet {
                 Optional<AuthorDto> registeredUser = authorService.getAuthorByEmail(author);
                 if(registeredUser.isPresent()) {
                     AuthorDto currentAuthor = registeredUser.get();
-
-                    byte[] bytes = currentAuthor.getAvatar().getInputStream().readAllBytes();
-                    String s = Base64.getEncoder().encodeToString(bytes);
-
-                    req.setAttribute("dataAvatar", dataAvatar);
+                    String base64 = Base64.getEncoder().encodeToString(currentAuthor.getAvatar());
+                    req.setAttribute("dataAvatar", base64);
                     req.getSession().setAttribute("author", currentAuthor);
                     req.setAttribute("NOTIFICATION", "registration was successful".toUpperCase());
                     req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);

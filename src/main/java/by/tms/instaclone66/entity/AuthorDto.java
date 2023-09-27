@@ -14,6 +14,7 @@ public class AuthorDto {
     private String userName;
     private String email;
     private String password;
+    // private MultipartFile avatar;
     private byte[] avatar;
     private String bio;
     private LocalDate registrationOfDate;

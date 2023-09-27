@@ -66,17 +66,15 @@ public class AuthorDaoJdbc implements AuthorDao {
                 authorDto.setUserName(resultSet.getString(2));
                 authorDto.setEmail(resultSet.getString(3));
                 authorDto.setPassword(resultSet.getString(4));
-                Blob blob = resultSet.getBlob(5);
-                byte[] avatar = blob.getBinaryStream().readAllBytes();
-                authorDto.setAvatar(avatar);
+                authorDto.setAvatar(resultSet.getBytes(5));
+                /*byte[] avatar = blob.getBinaryStream().readAllBytes();*/
+                /*authorDto.setAvatar(avatar);*/
 //                 ObjectInputStream ois = new ObjectInputStream(blob.getBinaryStream());*/
                 authorDto.setBio(resultSet.getString(6));
                 authorDto.setRegistrationOfDate(resultSet.getDate(7).toLocalDate());
             }
         } catch (SQLException e) {
             JdbcUtils.printSQLException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
         if (authorDto.getEmail() != null) {
             return Optional.of(authorDto);

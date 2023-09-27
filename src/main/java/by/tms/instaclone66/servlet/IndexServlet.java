@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 
 /**
@@ -37,6 +38,8 @@ public class IndexServlet extends HttpServlet {
     if(findAuthorByEmail.isPresent()){
       AuthorDto registeredUser = findAuthorByEmail.get();
       if (registeredUser.getPassword().equals(password)){
+        String base64 = Base64.getEncoder().encodeToString(registeredUser.getAvatar());
+        req.setAttribute("dataAvatar", base64);
         req.getSession().setAttribute("author",registeredUser);
         req.setAttribute("NOTIFICATION", "Welcome !!!");
         req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req,resp);
