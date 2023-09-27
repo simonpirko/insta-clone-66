@@ -1,6 +1,5 @@
 package by.tms.instaclone66.servlet.web.servlet;
 
-import by.tms.instaclone66.servlet.entity.User;
 import by.tms.instaclone66.servlet.service.UserService;
 
 import javax.servlet.ServletException;
@@ -9,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Optional;
+
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {

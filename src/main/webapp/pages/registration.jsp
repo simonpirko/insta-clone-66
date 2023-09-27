@@ -27,7 +27,7 @@
         <p>${message}</p>
         <p>${existsEmail}</p>
     </div>
-    <form action="<%=request.getContextPath()%>/registration" method="post" enctype="multipart/form-data">
+    <form action="<%=request.getContextPath()%>/registration" method="post">
 
         <div class="form-group">
             <label for="userName">User Name:</label> <label for="userName"></label><input type="text"
