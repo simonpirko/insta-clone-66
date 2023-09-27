@@ -23,25 +23,16 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("userName");
+        String userName = req.getParameter("userName");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        User user = new User(username, email, password);
-        Optional<User> exists = userService.getByEmail(email);
-        if (exists.isPresent()) {
-            User existsEmail = exists.get();
-            if (existsEmail.getEmail().equals(email)) {
-                req.getSession().setAttribute("existsEmail", "Email is taken, please select another email");
-                req.getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
-            }
+        if (userService.getByEmail(email).isPresent()) {
+            req.setAttribute("existsEmail", "Email is taken, please select another email");
+            req.getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
         } else {
-            try {
-                userService.create(username, email, password);
-                req.getServletContext().setAttribute("message", "Registration is Success");
-                req.getServletContext().getRequestDispatcher("/pages/Home.jsp").forward(req,resp);
-            } catch (SQLException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            userService.create(userName, email, password);
+            req.getServletContext().setAttribute("message", "Registration is Success");
+            req.getServletContext().getRequestDispatcher("/pages/Home.jsp").forward(req, resp);
         }
     }
 }

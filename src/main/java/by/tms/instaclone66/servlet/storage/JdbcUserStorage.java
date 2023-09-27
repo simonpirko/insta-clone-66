@@ -12,24 +12,27 @@ import java.util.Optional;
 
 public class JdbcUserStorage implements UserStorage {
     private static JdbcUserStorage instance;
-    private JdbcUserStorage(){}
 
-    public static JdbcUserStorage getInstance(){
-        if(instance == null){
+    private JdbcUserStorage() {
+    }
+
+    public static JdbcUserStorage getInstance() {
+        if (instance == null) {
             instance = new JdbcUserStorage();
         }
         return instance;
     }
+
     private static final String INSERT_QUERY;
     private static final String SELECT_EMAIL_QUERY;
 
     static {
-        SELECT_EMAIL_QUERY = "SELECT * FROM Users WHERE email = ?";
-        INSERT_QUERY = "INSERT INTO Users(userName,email,password) VALUES (?,?,?)";
+        INSERT_QUERY = "INSERT INTO Account(userName,email,password) VALUES (?,?,?)";
+        SELECT_EMAIL_QUERY = "SELECT * FROM Account WHERE email = ?";
     }
 
     @Override
-    public void save(User user) throws ClassNotFoundException, SQLException {
+    public void save(User user) {
         try (Connection connection = SqlConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
             preparedStatement.setString(1, user.getUserName());
@@ -55,9 +58,10 @@ public class JdbcUserStorage implements UserStorage {
                 String userName = resultSet.getString("userName");
                 String newEmail = resultSet.getString("email");
                 String password = resultSet.getString("password");
-               user.setUserName(userName);
-               user.setEmail(newEmail);
-               user.setPassword(password);
+                user.setId(id);
+                user.setUserName(userName);
+                user.setEmail(newEmail);
+                user.setPassword(password);
             }
             if (user.getEmail() != null) {
                 return Optional.of(user);
