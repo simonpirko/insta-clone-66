@@ -38,8 +38,8 @@ public class IndexServlet extends HttpServlet {
     if(findAuthorByEmail.isPresent()){
       AuthorDto registeredUser = findAuthorByEmail.get();
       if (registeredUser.getPassword().equals(password)){
-        String base64 = Base64.getEncoder().encodeToString(registeredUser.getAvatar());
-        req.setAttribute("dataAvatar", base64);
+
+        req.setAttribute("dataAvatar", registeredUser.getAvatar());
         req.getSession().setAttribute("author",registeredUser);
         req.setAttribute("NOTIFICATION", "Welcome !!!");
         req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req,resp);

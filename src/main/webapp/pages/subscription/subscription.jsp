@@ -1,48 +1,44 @@
 <%--
   Created by IntelliJ IDEA.
   User: sergeysterlikov
-  Date: 19.09.23
-  Time: 17:57
+  Date: 30.09.23
+  Time: 03:57
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.Base64" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head>
-    <title>User Management Application</title>
+<meta charset="ISO-8859-1">
+<title>User Register Form</title>
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous">
 
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
+<head>
+    <title>Subscriptions</title>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark"
-         style="background-color: red">
-        <div>
-            <a href="https://teachmeskills.by" class="navbar-brand"> < TeachMeSkills /> </a>
-        </div>
-
-        <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/stories"
-                   class="nav-link">Stories</a></li>
-        </ul>
-
-        <ul class="navbar-nav navbar-collapse justify-content-end">
-            <li><a href="<%=request.getContextPath()%>/profile"
-                   class="nav-link">Profile</a></li>
-            <li><a href="<%=request.getContextPath()%>/logout"
-                   class="nav-link">Logout</a></li>
-        </ul>
-    </nav>
-</header>
+<jsp:include page="../../header/header.jsp"></jsp:include>
+<style>
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 40px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 
 <div class="row">
     <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
 
-    <div class="container">
-        <h3 class="text-center">List of Stories</h3>
+    <%--<div class="container">--%>
+    <div class="container col-md-8 col-md-offset-3" style="overflow: auto">
+        <h3 class="text-center">List of Peoples</h3>
         <hr>
         <div class="container text-left">
 
@@ -57,20 +53,24 @@
                 <th>Email</th>
                 <th>Avatar</th>
                 <th>Registration date</th>
+                <th>Biography</th>
+                <th>Click to subscribe</th>
             </tr>
             </thead>
             <tbody>
             <!--   for (Stories stories: Stories) {  -->
-            <c:forEach var="todo" items="${peoples}"><%--listStories--%>
+            <c:forEach var="peoples" items="${peoples}"><%--listStories--%>
 
                 <tr>
                     <td><c:out value="${peoples.username}" /></td><%--stories.--%>
                     <td><c:out value="${peoples.email}" /></td>
+                    <td><img src="data:image/jpeg;base64,${peoples.avatar}" alt="User Avatar"></td>
                     <td><c:out value="${peoples.registrationOfDate}" /></td>
+                    <td><c:out value="${peoples.bio}" /></td>
 
-                    <td><a href="edit?id=<c:out value='${Stories.id}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                href="delete?id=<c:out value='${Stories.id}' />">Delete</a></td>
+                    <td><a href="edit?id=<c:out value='${peoples.id}' />">Subscribe</a>
+                       <%-- &nbsp;&nbsp;&nbsp;&nbsp; <a
+                                href="delete?id=<c:out value='${peoples.id}' />">Delete</a></td>--%>
 
                     <!--  <td><button (click)="updateTodo(Stories.id)" class="btn btn-success">Update</button>
                               <button (click)="deleteTodo(Stories.id)" class="btn btn-warning">Delete</button></td> -->
@@ -82,6 +82,8 @@
         </table>
     </div>
 </div>
+
+
 
 <jsp:include page="../../footer/footer.jsp"></jsp:include>
 </body>

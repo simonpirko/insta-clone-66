@@ -22,4 +22,13 @@
     <a href="https://github.com/simonpirko/insta-clone-66" > <strong> instaClone repository </strong></a>
   </div>
 </footer>
+<%--<footer class="sw3-container sw3-padding-64 sw3-light-grey sw3-center sw3-large">
+  <i class="fa fa-facebook-official sw3-hover-opacity"></i>
+  <i class="fa fa-instagram sw3-hover-opacity"></i>
+  <i class="fa fa-snapchat sw3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p sw3-hover-opacity"></i>
+  <i class="fa fa-twitter sw3-hover-opacity"></i>
+  <i class="fa fa-linkedin sw3-hover-opacity"></i>
+  <p class="sw3-medium">Работает на <a href="https://schoolsw3.com/sw3css/index.php" target="_blank">sw3.css</a></p>
+</footer>--%>
 <!-- Footer -->

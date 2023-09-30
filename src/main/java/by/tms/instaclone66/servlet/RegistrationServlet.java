@@ -27,6 +27,15 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getSession().getAttribute("author") != null){
+            Author author = (Author) req.getSession().getAttribute("author");
+            Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author);
+            if (findAuthorByEmail.isPresent()){
+                AuthorDto currentUser = findAuthorByEmail.get();
+                req.setAttribute("dataAvatar", currentUser.getAvatar());
+                req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
+            }
+        }
         req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
     }
 
@@ -52,8 +61,7 @@ public class RegistrationServlet extends HttpServlet {
                 Optional<AuthorDto> registeredUser = authorService.getAuthorByEmail(author);
                 if(registeredUser.isPresent()) {
                     AuthorDto currentAuthor = registeredUser.get();
-                    String base64 = Base64.getEncoder().encodeToString(currentAuthor.getAvatar());
-                    req.setAttribute("dataAvatar", base64);
+                    req.setAttribute("dataAvatar", currentAuthor.getAvatar());
                     req.getSession().setAttribute("author", currentAuthor);
                     req.setAttribute("NOTIFICATION", "registration was successful".toUpperCase());
                     req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);

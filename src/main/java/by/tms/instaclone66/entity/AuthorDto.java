@@ -11,12 +11,21 @@ import java.util.List;
 @AllArgsConstructor
 public class AuthorDto {
     private Integer id;
-    private String userName;
+    private String username;
     private String email;
     private String password;
     // private MultipartFile avatar;
-    private byte[] avatar;
+    private String avatar;
     private String bio;
     private LocalDate registrationOfDate;
     private List<Post> posts;
+
+    public AuthorDto(Integer id, String username, String email, String avatar, String bio, LocalDate registrationOfDate) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.avatar = avatar;
+        this.bio = bio;
+        this.registrationOfDate = registrationOfDate;
+    }
 }
