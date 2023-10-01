@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author Simon Pirko on 18.09.23
  */
 
-@WebServlet("/")
+@WebServlet("/login")
 public class IndexServlet extends HttpServlet {
   private final AuthorService authorService = AuthorService.getInstance();
 

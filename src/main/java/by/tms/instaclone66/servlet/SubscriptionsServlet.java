@@ -9,15 +9,39 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Writer;
 import java.sql.SQLException;
 
-@WebServlet(value = "/subscriptions")
+@WebServlet(value = "/subscription")
 public class SubscriptionsServlet extends HttpServlet {
     private final SubscriptionsService subscriptionsService = SubscriptionsService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("peoples",subscriptionsService.showAllAuthors());
-        req.getServletContext().getRequestDispatcher("/pages/subscription/subscription.jsp").forward(req,resp);
+        String action = req.getParameter("action");
+        AuthorDto authorDto = (AuthorDto) req.getSession().getAttribute("author");
+        int idFollowing = authorDto.getId();
+        switch (action){
+            case "/list":
+                req.setAttribute("peoples",subscriptionsService.showAllAuthors(idFollowing));
+                req.getServletContext().getRequestDispatcher("/pages/subscription/subscription.jsp").forward(req,resp);
+            case "/subscribe":
+                int idFollower = Integer.parseInt(req.getParameter("id"));
+                System.out.println("Subscribe id " + idFollowing);
+                req.setAttribute("peoples",subscriptionsService.subscriptionOn(idFollowing,idFollower));
+                req.getServletContext().getRequestDispatcher("/pages/subscription/subscription.jsp").forward(req,resp);
+            case "/unsubscribe":
+                System.out.println("unsubscribe");
+
+                /*subscriptionsService.subscriptionOn(id);*/
+                //follower -  на кого подписался
+                //following - подписчик
+                //
+
+
+
+        }
+/*        req.setAttribute("peoples",subscriptionsService.showAllAuthors());
+        req.getServletContext().getRequestDispatcher("/pages/subscription/subscription.jsp").forward(req,resp);*/
 
 
 
@@ -26,7 +50,7 @@ public class SubscriptionsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getContextPath());
+        doGet(req,resp);
 
     }
 }

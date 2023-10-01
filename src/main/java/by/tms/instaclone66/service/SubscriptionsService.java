@@ -18,12 +18,12 @@ public class SubscriptionsService {
         return instance;
     }
 
-    public List<AuthorDto> showAllAuthors(){
-        return subscriptionsDaoJdbc.getAllPeoples();
+    public List<AuthorDto> showAllAuthors(int id){
+        return subscriptionsDaoJdbc.selectAllExceptMe(id);
     }
 
-    public void subscriptionOn(){
-
+    public List<AuthorDto> subscriptionOn(int idFollowing, int idFollower){
+        return subscriptionsDaoJdbc.saveFollowing(idFollowing,idFollower);
     }
     public void subscriptionOff(){
 

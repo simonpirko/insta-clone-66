@@ -5,7 +5,8 @@ import by.tms.instaclone66.entity.AuthorDto;
 import java.util.List;
 
 public interface SubscriptionsDao {
-    List<AuthorDto> getAllPeoples();
-    void saveSubscription();
+    List<AuthorDto> selectAllExceptMe(int id);
+    List<AuthorDto> saveFollowing(int idFollowing, int idFollower);
+
 }
 

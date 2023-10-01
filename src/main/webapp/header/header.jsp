@@ -58,14 +58,14 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item" href="<%= request.getContextPath() %>/subscriptions">Subscriptions</a>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/subscription?action=/list">Subscriptions</a>
               </li>
               <li>
-                <a class="dropdown-item" href="<%= request.getContextPath() %>/register">Profile</a>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/register">Profile</a>
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/else">Something else here</a>
               </li>
             </ul>
           </li>
@@ -73,10 +73,12 @@
       </div>
 
       <c:if test="${sessionScope.author != null}">
-        <li><a href="<%= request.getContextPath() %>/subscriptions" class="nav-link">Subscriptions</a></li>
+        <%--<li><a href="<%= request.getContextPath() %>/subscriptions" class="nav-link">Subscriptions</a></li>--%>
+        <%--<li><a href="<%= request.getContextPath() %>/list" class="nav-link">Subscriptions</a></li>--%>
+        <li><a href="${pageContext.request.contextPath}/subscription?action=/list" class="nav-link">Subscriptions</a></li>
       </c:if>
       <c:if test="${sessionScope.author != null}">
-        <li><a href="<%= request.getContextPath() %>/stories" class="nav-link">Stories</a></li>
+        <li><a href="${pageContext.request.contextPath}/stories?action=/stories" class="nav-link">Stories</a></li>
       </c:if>
       <c:if test="${sessionScope.author == null}">
       <li><a href="<%= request.getContextPath() %>/register" class="nav-link">Signup</a></li>
