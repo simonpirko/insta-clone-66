@@ -22,10 +22,10 @@ public class SubscriptionsService {
         return subscriptionsDaoJdbc.selectAllExceptMe(id);
     }
 
-    public List<AuthorDto> subscriptionOn(int idFollowing, int idFollower){
-        return subscriptionsDaoJdbc.saveFollowing(idFollowing,idFollower);
+    public void subscribe(int idFollower, int idFollowing){
+        subscriptionsDaoJdbc.saveFollowing(idFollower,idFollowing);
     }
-    public void subscriptionOff(){
+    public void subscriptionOff(int id){
 
     }
 

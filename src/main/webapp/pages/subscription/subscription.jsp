@@ -31,8 +31,11 @@
         margin-right: auto;
     }
 </style>
+
 <div class="row">
     <div class="container col-md-8 col-md-offset-3" style="overflow: auto">
+
+        <form action="<%=request.getContextPath()%>/subscription" method="post" enctype="multipart/form-data">
         <h3 class="text-center">List of Peoples</h3>
         <hr>
         <div class="container text-left">
@@ -53,7 +56,6 @@
             </thead>
             <tbody>
             <c:forEach var="peoples" items="${requestScope.peoples}"><%--listStories--%>
-
                 <tr>
                     <td><c:out value="${peoples.username}"/></td>
                         <%--stories.--%>
@@ -62,20 +64,13 @@
                     <td><c:out value="${peoples.registrationOfDate}"/></td>
                     <td><c:out value="${peoples.bio}"/></td>
                     <td>
-                        <a href="${pageContext.request.contextPath}
-                        /subscription?action=/subscribe&id=<c:out value=
+                        <a href="${pageContext.request.contextPath}/subscription?id=<c:out value=
                         '${peoples.id}' />">Subscribe</a>
-                            <%--<td><a href="<%=request.getContextPath()%>/list">Subscribe</a>--%>
-                            <%-- &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                     href="delete?id=<c:out value='${peoples.id}' />">Delete</a></td>--%>
-                        <!--  <td><button (click)="updateTodo(Stories.id)" class="btn btn-success">Update</button>
-                                  <button (click)="deleteTodo(Stories.id)" class="btn btn-warning">Delete</button></td> -->
                 </tr>
             </c:forEach>
-            <!-- } -->
             </tbody>
-
         </table>
+            </form>
     </div>
 </div>
 <jsp:include page="../../footer/footer.jsp"></jsp:include>

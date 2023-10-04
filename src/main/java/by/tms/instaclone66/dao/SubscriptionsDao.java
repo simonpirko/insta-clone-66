@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface SubscriptionsDao {
     List<AuthorDto> selectAllExceptMe(int id);
-    List<AuthorDto> saveFollowing(int idFollowing, int idFollower);
+    void saveFollowing(int idFollowing, int idFollower);
+
+    List<AuthorDto> selectFollower(int idFollowing);
 
 }
 
