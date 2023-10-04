@@ -83,6 +83,6 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return null;
+        return authorDtosAllFollower;
     }
 }

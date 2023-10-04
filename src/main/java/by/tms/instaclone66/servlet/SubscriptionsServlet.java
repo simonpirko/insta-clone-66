@@ -30,6 +30,7 @@ public class SubscriptionsServlet extends HttpServlet {
         int idFollower = Integer.parseInt(req.getParameter("id"));
         int idFollowing = author.getId();
         subscriptionsService.subscribe(idFollower,idFollowing);
+        req.setAttribute("peoples", subscriptionsService.showSubscriptions(idFollower));
         req.getServletContext().getRequestDispatcher("/pages/subscription/subscription.jsp").forward(req,resp);
 
 

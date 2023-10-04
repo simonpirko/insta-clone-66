@@ -25,6 +25,10 @@ public class SubscriptionsService {
     public void subscribe(int idFollower, int idFollowing){
         subscriptionsDaoJdbc.saveFollowing(idFollower,idFollowing);
     }
+
+    public List<AuthorDto> showSubscriptions(int idDFollower){
+        return subscriptionsDaoJdbc.selectFollower(idDFollower);
+    }
     public void subscriptionOff(int id){
 
     }
