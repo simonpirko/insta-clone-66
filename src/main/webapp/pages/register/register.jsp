@@ -11,7 +11,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<jsp:include page="../../header/header.jsp"></jsp:include>
+<jsp:include page="../../header/_header.jsp"></jsp:include>
 <c:if test="${sessionScope.author == null}">
     <div class="container col-md-3 col-md-offset-3" style="overflow: auto">
         <h2>User Register Form</h2>
@@ -62,7 +62,8 @@
             margin-right: auto;
         }
     </style>
-    <img src="data:image/jpeg;base64,${dataAvatar}" alt="User Avatar">
+    <%--<img src="data:image/jpeg;base64,${dataAvatar}" alt="User Avatar">--%>
+    <img src="data:image/jpeg;base64,${author.avatar}" alt="User Avatar">
     <div class="container col-md-4">
         <div class="card">
             <div class="card-body">
@@ -125,6 +126,6 @@
         </div>
     </div>
 </c:if>
-<jsp:include page="../../footer/footer.jsp"></jsp:include>
+<jsp:include page="../../footer/_footer.jsp"></jsp:include>
 </body>
 </html>

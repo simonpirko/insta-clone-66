@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Post
     account_id  INT                            NOT NULL,
     content     MEDIUMBLOB                     NOT NULL,
     description VARCHAR(255),
-    post_date   DATE NOT NULL ,
+    post_date DATE NOT NULL ,
     FOREIGN KEY (account_id) REFERENCES Account (id)
 );
 

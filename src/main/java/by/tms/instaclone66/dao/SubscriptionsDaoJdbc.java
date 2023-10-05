@@ -24,16 +24,18 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
         return instance;
     }
 
-    private static final String SELECT_ALL_AUTHORS_QUERY = "SELECT * FROM Account WHERE id <> ?";
+    private static final String SELECT_ALL_AUTHORS_QUERY = "SELECT * FROM Account A LEFT JOIN Follower F ON A.id = F.follower_id AND F.following_id = ? WHERE A.id <> ? AND F.follower_id IS NULL";
     private static final String INSERT_FOLLOWING = "INSERT INTO Follower(follower_id,following_id) VALUES (?,?)";
-    private static final String SELECT_FOLLOWER = "SELECT A.* FROM Account A INNER JOIN Follower F on A.id = F.follower_id WHERE A.id = ?;";
+    private static final String SELECT_FOLLOWER = "SELECT A.* FROM Account A INNER JOIN Follower F on A.id = F.follower_id WHERE F.following_id = ?";
+    private static final String DELETE_SUBSCRIPTION = "DELETE FROM Follower WHERE following_id = ? AND follower_id = ?";
 
     @Override
     public List<AuthorDto> selectAllExceptMe(int id) {
-        List<AuthorDto> allAuthorDtoAll = new ArrayList<>();
+        List<AuthorDto> allAuthors = new ArrayList<>();
         try(Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_AUTHORS_QUERY);
             preparedStatement.setInt(1,id);
+            preparedStatement.setInt(2,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 int idAuthor = resultSet.getInt(1);
@@ -43,12 +45,12 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
                 String bio = resultSet.getString(6);
                 LocalDate registrationDate = resultSet.getDate(7).toLocalDate();
                 AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
-                allAuthorDtoAll.add(authorDto);
+                allAuthors.add(authorDto);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return allAuthorDtoAll;
+        return allAuthors;
     }
 
     @Override
@@ -64,8 +66,8 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
     }
 
     @Override
-    public List<AuthorDto> selectFollower(int idFollowing) {
-        List<AuthorDto> authorDtosAllFollower = new ArrayList<>();
+    public List<AuthorDto> collectAllSubscribers(int idFollowing) {
+        List<AuthorDto> subscribers = new ArrayList<>();
         try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FOLLOWER);
             preparedStatement.setInt(1,idFollowing);
@@ -78,11 +80,24 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
                 String bio = resultSet.getString(6);
                 LocalDate registrationDate = resultSet.getDate(7).toLocalDate();
                 AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
-                authorDtosAllFollower.add(authorDto);
+                subscribers.add(authorDto);
             }
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return authorDtosAllFollower;
+        return subscribers;
+    }
+
+    @Override
+    public void deleteSubscription(int idFollowing, int idFollower) {
+        try (Connection connection = JdbcUtils.getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SUBSCRIPTION);
+            preparedStatement.setInt(1,idFollowing);
+            preparedStatement.setInt(2,idFollower);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
     }
 }

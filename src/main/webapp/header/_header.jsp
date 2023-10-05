@@ -56,7 +56,7 @@
                             <c:if test="${sessionScope.author != null}">
                                 <li>
                                     <a class="dropdown-item"
-                                       href="${pageContext.request.contextPath}/subscription?action=/list">Subscriptions</a>
+                                       href="${pageContext.request.contextPath}/subscription">Subscriptions</a>
                                 </li>
                             </c:if>
                             <c:if test="${sessionScope.author != null}">
@@ -79,10 +79,13 @@
 
             <c:if test="${sessionScope.author != null}">
 
-                <li><a href="${pageContext.request.contextPath}/subscription?action=/list"
-                       class="nav-link">Edit subscriptions</a></li
+                <li><a href="${pageContext.request.contextPath}/subscribe"
+                       class="nav-link">Subscribed to</a></li>
 
-                <li><a href="${pageContext.request.contextPath}/stories?action=/stories"
+                <li><a href="${pageContext.request.contextPath}/subscription"
+                       class="nav-link">list of possible subscriptions</a></li>
+
+                <li><a href="${pageContext.request.contextPath}/stories"
                        class="nav-link">Stories</a>
                 </li>
 

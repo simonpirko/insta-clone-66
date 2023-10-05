@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: sergeysterlikov
-  Date: 30.09.23
-  Time: 03:57
+  Date: 5.10.23
+  Time: 15:13
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -25,7 +25,7 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         padding: 5px;
-        width: 40px;
+        width: 80px;
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -33,7 +33,9 @@
 </style>
 <div class="row">
     <div class="container col-md-8 col-md-offset-3" style="overflow: auto">
-        <h3 class="text-center">List of Peoples</h3>
+
+        <h5 class="text-center"> Author name: ${author.username} <img src="data:image/jpeg;base64,${author.avatar}" alt="User Avatar"></h5>
+        <h3 class="text-center">List of subscriptions</h3>
         <hr>
         <div class="container text-left">
             <a href="<%=request.getContextPath()%>/new"
@@ -52,26 +54,25 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="peoples" items="${requestScope.peoples}"><%--listStories--%>
+            <c:forEach var="peoples" items="${requestScope.peoples}">
                 <tr>
                     <td><c:out value="${peoples.username}"/></td>
-                        <%--stories.--%>
                     <td><c:out value="${peoples.email}"/></td>
                     <td><img src="data:image/jpeg;base64,${peoples.avatar}" alt="User Avatar"></td>
                     <td><c:out value="${peoples.registrationOfDate}"/></td>
                     <td><c:out value="${peoples.bio}"/></td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/subscription?id=<c:out value=
-                        '${peoples.id}' />">Subscribe</a>
-                        <label for="userId">User ID:</label>
-                        <input type="submit" id="userId" name="userId" value="${peoples.id}" required>
-                        <br>
-                        <input type="submit" value="Subscribe">
+                        <form method="post" action="<c:url value='/subscribe'/>">
+                            <label>
+                                <input type="number" hidden name="id" value="${peoples.id}"/>
+                            </label>
+                            <input type="submit" name="subscribe" value="Subscribe"/>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-
     </div>
 </div>
 <jsp:include page="../../footer/_footer.jsp"></jsp:include>

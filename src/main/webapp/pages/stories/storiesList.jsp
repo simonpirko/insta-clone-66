@@ -83,6 +83,6 @@
     </div>
 </div>
 
-<jsp:include page="../../footer/footer.jsp"></jsp:include>
+<jsp:include page="../../footer/_footer.jsp"></jsp:include>
 </body>
 </html>

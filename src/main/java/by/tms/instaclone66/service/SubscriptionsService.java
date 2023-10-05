@@ -7,30 +7,33 @@ import java.util.List;
 
 public class SubscriptionsService {
     private static SubscriptionsService instance;
-    private SubscriptionsService(){
+
+    private SubscriptionsService() {
 
     }
+
     private final SubscriptionsDaoJdbc subscriptionsDaoJdbc = SubscriptionsDaoJdbc.getInstance();
-    public static SubscriptionsService getInstance(){
-        if(instance == null){
+
+    public static SubscriptionsService getInstance() {
+        if (instance == null) {
             instance = new SubscriptionsService();
         }
         return instance;
     }
 
-    public List<AuthorDto> showAllAuthors(int id){
+    public List<AuthorDto> showAllAuthors(int id) {
         return subscriptionsDaoJdbc.selectAllExceptMe(id);
     }
 
-    public void subscribe(int idFollower, int idFollowing){
-        subscriptionsDaoJdbc.saveFollowing(idFollower,idFollowing);
+    public void subscribe(int idFollower, int idFollowing) {
+        subscriptionsDaoJdbc.saveFollowing(idFollower, idFollowing);
     }
 
-    public List<AuthorDto> showSubscriptions(int idDFollower){
-        return subscriptionsDaoJdbc.selectFollower(idDFollower);
-    }
-    public void subscriptionOff(int id){
-
+    public void unsubscribe(int idFollower, int idFollowing) {
+        subscriptionsDaoJdbc.deleteSubscription(idFollowing, idFollower);
     }
 
+    public List<AuthorDto> showSubscriptions(int idFollowing) {
+        return subscriptionsDaoJdbc.collectAllSubscribers(idFollowing);
+    }
 }
