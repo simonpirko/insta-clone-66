@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface AuthorDao {
     void save(Author author) throws IOException;
     Optional<AuthorDto> findAuthorByEmail(String email);
+    void update(Author author) throws IOException;
 }

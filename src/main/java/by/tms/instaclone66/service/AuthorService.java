@@ -38,4 +38,7 @@ public class AuthorService {
     public List<Author> printingAuthorData(){
         return null;
     }
+    public void update(Author author) throws IOException {
+        authorDaoJdbc.update(author);
+    }
 }

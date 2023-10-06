@@ -13,6 +13,10 @@
         <li><a href="<%= request.getContextPath() %>/stories" class="nav-link">Stories</a></li>
       </c:if>
 
+      <c:if test="${sessionScope.author != null}">
+        <li><a href="<%= request.getContextPath() %>/edit_profile" class="nav-link">Edit profile</a></li>
+      </c:if>
+
       <li><a href="<%= request.getContextPath() %>/register" class="nav-link">Signup</a></li>
 
       <c:if test="${sessionScope.author != null}">

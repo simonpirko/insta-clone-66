@@ -35,4 +35,7 @@ public class Author {
         this.registrationOfDate = registrationOfDate;
     }
 
+    public Author(int id, String userName, String email, String password, Part avatar, String bio, LocalDate date) {
+
+    }
 }

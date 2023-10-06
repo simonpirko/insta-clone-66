@@ -31,14 +31,26 @@ public class AuthorDaoJdbc implements AuthorDao {
     private static final String INSERT_QUERY = "INSERT INTO Account(username,email,password,avatar,bio,registration_date)" +
             " VALUES (?,?,?,?,?,?)";
     private static final String SELECT_AUTHOR_BY_EMAIL_QUERY = "SELECT * FROM Account WHERE email = ?";
+    private static final String UPDATE_QUERY = "UPDATE Account\n" +
+                                                "SET username = ?, email = ?, password = ?, avatar = ?, bio = ?, registration_date = ?\n" +
+                                                "WHERE id = ?";
 
 
     @Override
     public void save(Author author) throws IOException {
+        saveOrUpdate(author, INSERT_QUERY);
+    }
+
+    @Override
+    public void update(Author author) throws IOException {
+        saveOrUpdate(author, UPDATE_QUERY);
+    }
+
+    private void saveOrUpdate(Author author, String updateQuery) throws IOException {
         Part file = author.getAvatar();
         InputStream fileContent = file.getInputStream();
         try (Connection connection = JdbcUtils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setString(1, author.getUserName());
             preparedStatement.setString(2, author.getEmail());
             preparedStatement.setString(3, author.getPassword());
@@ -47,7 +59,8 @@ public class AuthorDaoJdbc implements AuthorDao {
             /*preparedStatement.setBytes(4, Base64.getDecoder().decode(user.getPhoto()));*/
 
             preparedStatement.setString(5, author.getBio());
-            preparedStatement.setDate(6, java.sql.Date.valueOf(author.getRegistrationOfDate()));
+            preparedStatement.setDate(6, Date.valueOf(author.getRegistrationOfDate()));
+            preparedStatement.setInt(7, author.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             JdbcUtils.printSQLException(e);

@@ -9,7 +9,7 @@ public class JdbcUtils {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/db_instClone",
+            connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/new_db_instagram_clone",
                     "root", "root");
         } catch (SQLException  e) {
             e.printStackTrace();
