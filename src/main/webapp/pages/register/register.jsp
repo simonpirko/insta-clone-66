@@ -87,37 +87,47 @@
 
 
                         <fieldset class="form-group">
-                            <label>Username</label> <input type="text"
-                                                           value="<c:out value='${author.username}' />" class="form-control"
-                                                           name="username" required="required" minlength="2">
+                            <label>Username</label> <label>
+                            <input type="text"
+                                   value="<c:out value='${author.username}' />" class="form-control"
+                                   name="username" required="required" minlength="2">
+                        </label>
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label>Email</label> <input type="text"
-                                                        value="<c:out value='${author.email}' />" class="form-control"
-                                                        name="email" required="required" minlength="2">
+                            <label>Email</label> <label>
+                            <input type="text"
+                                   value="<c:out value='${author.email}' />" class="form-control"
+                                   name="email" required="required" minlength="2">
+                        </label>
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label>Registration date</label> <input type="text"
-                                                                    value="<c:out value='${author.registrationOfDate}' />"
-                                                                    class="form-control"
-                                                                    name="description" minlength="2">
+                            <label>Registration date</label> <label>
+                            <input type="text"
+                                   value="<c:out value='${author.registrationOfDate}' />"
+                                   class="form-control"
+                                   name="description" minlength="2">
+                        </label>
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label>Profile Status</label> <select class="form-control"
-                                                                  name="publicAccount">
-                            <option value="false">Private</option>
-                            <option value="true">Public</option>
-                        </select>
+                            <label>Profile Status</label> <label>
+                            <select class="form-control"
+                                    name="publicAccount">
+                                <option value="false">Private</option>
+                                <option value="true">Public</option>
+                            </select>
+                        </label>
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label>Publication end date</label> <input type="date"
-                                                                       value="<c:out value='${author.registrationOfDate}' />"
-                                                                       class="form-control"
-                                                                       name="targetDate" required="required">
+                            <label>Publication end date</label> <label>
+                            <input type="date"
+                                   value="<c:out value='${author.registrationOfDate}' />"
+                                   class="form-control"
+                                   name="targetDate" required="required">
+                        </label>
                         </fieldset>
 
                         <button type="submit" class="btn btn-success">Publish</button>

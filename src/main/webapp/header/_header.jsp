@@ -78,12 +78,14 @@
             </div>
 
             <c:if test="${sessionScope.author != null}">
+                <li><a href="${pageContext.request.contextPath}/subscribers"
+                       class="nav-link">Subscribers</a></li>
 
                 <li><a href="${pageContext.request.contextPath}/subscribe"
-                       class="nav-link">Subscribed to</a></li>
+                       class="nav-link">Subscriptions</a></li>
 
                 <li><a href="${pageContext.request.contextPath}/subscription"
-                       class="nav-link">list of possible subscriptions</a></li>
+                       class="nav-link">List of registered users</a></li>
 
                 <li><a href="${pageContext.request.contextPath}/stories"
                        class="nav-link">Stories</a>

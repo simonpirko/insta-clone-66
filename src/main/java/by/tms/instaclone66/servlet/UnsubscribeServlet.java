@@ -16,7 +16,9 @@ public class UnsubscribeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        AuthorDto authorDto = (AuthorDto) req.getSession().getAttribute("author");
+        req.setAttribute("peoples", subscriptionsService.showAllSubscriptions(authorDto.getId()));
+        req.getServletContext().getRequestDispatcher("/pages/subscription/subscribe.jsp").forward(req, resp);
     }
 
     @Override
@@ -24,7 +26,7 @@ public class UnsubscribeServlet extends HttpServlet {
         AuthorDto author = (AuthorDto) req.getSession().getAttribute("author");
         int idUnfollowing = Integer.parseInt(req.getParameter("id"));
         subscriptionsService.unsubscribe(idUnfollowing, author.getId());
-        req.setAttribute("peoples", subscriptionsService.showSubscriptions(author.getId()));
+        req.setAttribute("peoples", subscriptionsService.showAllSubscriptions(author.getId()));
         req.getServletContext().getRequestDispatcher("/pages/subscription/unsubscribe.jsp").forward(req, resp);
     }
 }

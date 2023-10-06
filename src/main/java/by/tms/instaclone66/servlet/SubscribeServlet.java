@@ -17,7 +17,7 @@ public class SubscribeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AuthorDto authorDto = (AuthorDto) req.getSession().getAttribute("author");
-        req.setAttribute("peoples", subscriptionsService.showSubscriptions(authorDto.getId()));
+        req.setAttribute("peoples", subscriptionsService.showAllSubscriptions(authorDto.getId()));
         req.getServletContext().getRequestDispatcher("/pages/subscription/unsubscribe.jsp").forward(req, resp);
     }
 
@@ -28,7 +28,7 @@ public class SubscribeServlet extends HttpServlet {
         AuthorDto author = (AuthorDto) req.getSession().getAttribute("author");
         int idFollower = Integer.parseInt(req.getParameter("id"));
         subscriptionsService.subscribe(idFollower, author.getId());
-        req.setAttribute("peoples", subscriptionsService.showSubscriptions(author.getId()));
+        req.setAttribute("peoples", subscriptionsService.showAllSubscriptions(author.getId()));
         req.getServletContext().getRequestDispatcher("/pages/subscription/unsubscribe.jsp").forward(req, resp);
     }
 }

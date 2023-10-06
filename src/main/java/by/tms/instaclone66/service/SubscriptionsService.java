@@ -22,18 +22,24 @@ public class SubscriptionsService {
     }
 
     public List<AuthorDto> showAllAuthors(int id) {
-        return subscriptionsDaoJdbc.selectAllExceptMe(id);
+        return subscriptionsDaoJdbc.selectAllUnSubscribers(id);
     }
 
     public void subscribe(int idFollower, int idFollowing) {
-        subscriptionsDaoJdbc.saveFollowing(idFollower, idFollowing);
+        subscriptionsDaoJdbc.saveSubscription(idFollower, idFollowing);
     }
 
     public void unsubscribe(int idFollower, int idFollowing) {
         subscriptionsDaoJdbc.deleteSubscription(idFollowing, idFollower);
     }
 
-    public List<AuthorDto> showSubscriptions(int idFollowing) {
+    public List<AuthorDto> showAllSubscriptions(int idFollowing) {
+        return subscriptionsDaoJdbc.collectAllSubscriptions(idFollowing);
+    }
+
+    public List<AuthorDto> showAllSubscribers(int idFollowing){
         return subscriptionsDaoJdbc.collectAllSubscribers(idFollowing);
     }
+
+
 }

@@ -24,16 +24,21 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
         return instance;
     }
 
-    private static final String SELECT_ALL_AUTHORS_QUERY = "SELECT * FROM Account A LEFT JOIN Follower F ON A.id = F.follower_id AND F.following_id = ? WHERE A.id <> ? AND F.follower_id IS NULL";
+    private static final String SELECT_UNSUBSCRIBED = "SELECT A.* FROM Account A LEFT JOIN Follower F ON A.id = F.follower_id AND F.following_id = ? WHERE A.id <> ? AND F.follower_id IS NULL";
+
+    private static final String SELECT_SUBSCRIBE = "SELECT A.* FROM Account A INNER JOIN Follower F on A.id = F.follower_id WHERE F.following_id = ?";
+
+    private static final String SELECT_SUBSCRIBERS = "SELECT A.* FROM Account A LEFT JOIN Follower F ON A.id = F.following_id AND F.follower_id = ? WHERE A.id <> ? AND F.follower_id IS NOT NULL";
+
     private static final String INSERT_FOLLOWING = "INSERT INTO Follower(follower_id,following_id) VALUES (?,?)";
-    private static final String SELECT_FOLLOWER = "SELECT A.* FROM Account A INNER JOIN Follower F on A.id = F.follower_id WHERE F.following_id = ?";
+
     private static final String DELETE_SUBSCRIPTION = "DELETE FROM Follower WHERE following_id = ? AND follower_id = ?";
 
     @Override
-    public List<AuthorDto> selectAllExceptMe(int id) {
+    public List<AuthorDto> selectAllUnSubscribers(int id) {
         List<AuthorDto> allAuthors = new ArrayList<>();
         try(Connection connection = JdbcUtils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_AUTHORS_QUERY);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_UNSUBSCRIBED);
             preparedStatement.setInt(1,id);
             preparedStatement.setInt(2,id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -54,7 +59,7 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
     }
 
     @Override
-    public void saveFollowing(int idFollower, int idFollowing) {
+    public void saveSubscription(int idFollower, int idFollowing) {
         try(Connection connection = JdbcUtils.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_FOLLOWING);
             preparedStatement.setInt(1,idFollower);
@@ -66,11 +71,35 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
     }
 
     @Override
+    public List<AuthorDto> collectAllSubscriptions(int idFollowing) {
+        List<AuthorDto> subscriptions = new ArrayList<>();
+        try (Connection connection = JdbcUtils.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUBSCRIBE);
+            preparedStatement.setInt(1,idFollowing);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int idAuthor = resultSet.getInt(1);
+                String username = resultSet.getString(2);
+                String email = resultSet.getString(3);
+                String base64 = Base64.getEncoder().encodeToString(resultSet.getBytes(5));
+                String bio = resultSet.getString(6);
+                LocalDate registrationDate = resultSet.getDate(7).toLocalDate();
+                AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
+                subscriptions.add(authorDto);
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return subscriptions;
+    }
+
+    @Override
     public List<AuthorDto> collectAllSubscribers(int idFollowing) {
         List<AuthorDto> subscribers = new ArrayList<>();
-        try (Connection connection = JdbcUtils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FOLLOWER);
+        try(Connection connection = JdbcUtils.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUBSCRIBERS);
             preparedStatement.setInt(1,idFollowing);
+            preparedStatement.setInt(2,idFollowing);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 int idAuthor = resultSet.getInt(1);
@@ -82,9 +111,10 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
                 AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
                 subscribers.add(authorDto);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        
         return subscribers;
     }
 
@@ -98,6 +128,5 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-
     }
 }

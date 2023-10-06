@@ -34,13 +34,12 @@ public class IndexServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         Author author = new Author(email, password);
-        Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author);
+        Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author.getEmail());
         if (findAuthorByEmail.isPresent()) {
-            AuthorDto registeredUser = findAuthorByEmail.get();
-            if (registeredUser.getPassword().equals(password)) {
-
-                req.setAttribute("dataAvatar", registeredUser.getAvatar());
-                req.getSession().setAttribute("author", registeredUser);
+            AuthorDto currentAuthor = findAuthorByEmail.get();
+            if (currentAuthor.getPassword().equals(password)) {
+                /*req.setAttribute("dataAvatar", currentAuthor.getAvatar());*/
+                req.getSession().setAttribute("author", currentAuthor);
                 req.setAttribute("NOTIFICATION", "Welcome !!!");
                 req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
             } else {
