@@ -1,16 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: simonpirko
-  Date: 18.09.23
-  Time: 9:44 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <title>Создание поста</title>
 </head>
 <body>
-<h1>Hello World!</h1>
+<h1>Создание нового поста</h1>
+<form action="createPost" method="post" enctype="multipart/form-data">
+    <label for="image">Изображение:</label>
+    <input type="file" name="image" id="image" accept="image/*"><br><br>
+
+    <label for="text">Текст:</label>
+    <textarea name="text" id="text" rows="5" cols="50"></textarea><br><br>
+
+    <input type="submit" value="Создать пост">
+</form>
 </body>
 </html>
