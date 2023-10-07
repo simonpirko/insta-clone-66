@@ -1,7 +1,9 @@
-create schema new_db_instagram_clone;
+DROP DATABASE IF EXISTS db_instClone;
 
+CREATE DATABASE IF NOT EXISTS db_instClone;
 
-Use new_db_instagram_clone;
+Use db_instClone;
+
 
 
 CREATE TABLE IF NOT EXISTS Account
@@ -22,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Post
     account_id  INT                            NOT NULL,
     content     MEDIUMBLOB                     NOT NULL,
     description VARCHAR(255),
-    post_date DATE NOT NULL ,
+    post_date   DATE                           NOT NULL,
     FOREIGN KEY (account_id) REFERENCES Account (id)
 );
 
@@ -43,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Comment
     account_id   INT                            NOT NULL,
     post_id      INT                            NOT NULL,
     text         VARCHAR(255),
-    comment_date DATETIME                       NOT NULL,
+    comment_date DATETIME,
     FOREIGN KEY (account_id) REFERENCES Account (id),
     FOREIGN KEY (post_id) REFERENCES Post (id)
 );
