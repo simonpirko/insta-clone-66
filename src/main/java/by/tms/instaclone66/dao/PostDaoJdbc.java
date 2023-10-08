@@ -13,6 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import static by.tms.instaclone66.utils.JdbcUtils.getConnection;
 
 public class PostDaoJdbc implements PostDao {
     private static PostDaoJdbc instance;
@@ -30,7 +35,9 @@ public class PostDaoJdbc implements PostDao {
 
     private static final String INSERT_POST = "INSERT INTO Post(account_id,content,description,post_date) VALUES (?,?,?,?)";
 
-    private static final String SELECT_POST_LIKE_COMMENT = "SELECT P.id,P.content,P.description,P.post_date FROM Post P INNER JOIN Account A ON P.account_id = A.id WHERE A.id = ?;";
+    private static final String SELECT_POST_LIKE_COMMENT = "SELECT P.id,P.content,P.description,P.post_date FROM Post P INNER JOIN Account A ON P.account_id = A.id WHERE A.id = ?";
+
+    private static final String DELETE_POST_QUERY = "DELETE FROM Post WHERE id = ?";
 
 
     @Override
@@ -44,6 +51,17 @@ public class PostDaoJdbc implements PostDao {
             preparedStatement.setString(3, post.getDescription());
             preparedStatement.setDate(4, java.sql.Date.valueOf(post.getPublicationDate()));
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void deletePost(int id) {
+        try (Connection connection = JdbcUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_POST_QUERY)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

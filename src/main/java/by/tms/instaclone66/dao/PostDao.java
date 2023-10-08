@@ -13,4 +13,6 @@ public interface PostDao {
     List<Comment> selectAllCommentByPostId(AuthorDto authorDto);
 
     List<Like> selectAllLikesByPostId(AuthorDto authorDto);
+
+    void deletePost(int id);
 }
