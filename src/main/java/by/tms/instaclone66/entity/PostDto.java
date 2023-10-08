@@ -14,8 +14,15 @@ public class PostDto {
     private AuthorDto author;
     private String content;
     private String description;
-    private LocalDate publicationDate;
+    private LocalDate postOfDate;
     private List<Comment> comments;
     private List<Like> likes;
+
+    public PostDto(Integer id, String content, String description, LocalDate postOfDate) {
+        this.id = id;
+        this.content = content;
+        this.description = description;
+        this.postOfDate = postOfDate;
+    }
 }
 

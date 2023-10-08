@@ -14,11 +14,10 @@ public class AuthorDto {
     private String username;
     private String email;
     private String password;
-    // private MultipartFile avatar;
     private String avatar;
     private String bio;
     private LocalDate registrationOfDate;
-    private List<Post> posts;
+    private List<PostDto> posts;
 
     public AuthorDto(Integer id, String username, String email, String avatar, String bio, LocalDate registrationOfDate) {
         this.id = id;

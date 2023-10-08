@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class Post {
     private Integer id;
-    private AuthorDto author;
+    private AuthorDto authorDto;
     private Part content;
     private String description;
     private LocalDate publicationDate;
@@ -20,7 +20,7 @@ public class Post {
     private List<Like> likes;
 
     public Post(AuthorDto author, Part content, String description, LocalDate publicationDate) {
-        this.author = author;
+        this.authorDto = author;
         this.content = content;
         this.description = description;
         this.publicationDate = publicationDate;

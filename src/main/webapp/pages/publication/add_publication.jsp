@@ -44,6 +44,52 @@
         <button type="submit" class="btn btn-primary">Publish a publication</button>
 
     </form>
+
+</div>
+<style>
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 300px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<div class="row">
+    <div class="container col-md-8 col-md-offset-3" style="overflow: auto">
+        <h3 class="text-center">List of publication</h3>
+        <hr>
+        <br>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Content</th>
+                <th>Description</th>
+                <th>Post of date</th>
+                <th>Click to subscribe</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="posts" items="${requestScope.posts}">
+                <tr>
+                    <td><img src="data:image/jpeg;base64,${posts.content}" alt="User Avatar"></td>
+                    <td><c:out value="${posts.description}"/></td>
+                    <td><c:out value="${posts.postOfDate}"/></td>
+                    <td>
+                        <form method="post" action="<c:url value='/unsubscribe'/>">
+                            <label>
+                                <input type="number" hidden name="id" value="${posts.id}"/>
+                            </label>
+                            <input type="submit" name="unsubscribe" value="Unsubscribe"/>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 <jsp:include page="../../footer/_footer.jsp"></jsp:include>
 </body>
