@@ -27,6 +27,15 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("author") != null) {
+            AuthorDto author = (AuthorDto) req.getSession().getAttribute("author");
+            Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author.getEmail());
+            if (findAuthorByEmail.isPresent()) {
+                AuthorDto currentUser = findAuthorByEmail.get();
+                req.setAttribute("dataAvatar", currentUser.getAvatar());
+                req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
+            }
+        }
         req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
     }
 
@@ -43,23 +52,22 @@ public class RegistrationServlet extends HttpServlet {
 
         Author author = new Author(userName, email, password, avatar, bio, registrationOfDate);
 
-        Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author);
-        if(findAuthorByEmail.isPresent()){
-                req.setAttribute("NOTIFICATION", "choose a different email address".toUpperCase());
+        Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(email);
+        if (findAuthorByEmail.isPresent()) {
+            req.setAttribute("NOTIFICATION", "choose a different email address".toUpperCase());
+            req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
+        } else {
+            authorService.create(author);
+            Optional<AuthorDto> registeredUser = authorService.getAuthorByEmail(email);
+            if (registeredUser.isPresent()) {
+                AuthorDto currentAuthor = registeredUser.get();
+                /*req.setAttribute("dataAvatar", currentAuthor.getAvatar());*/
+                req.getSession().setAttribute("author", currentAuthor);
+                req.setAttribute("NOTIFICATION", "registration was successful".toUpperCase());
                 req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
-            } else {
-                authorService.create(author);
-                Optional<AuthorDto> registeredUser = authorService.getAuthorByEmail(author);
-                if(registeredUser.isPresent()) {
-                    AuthorDto currentAuthor = registeredUser.get();
-                    String base64 = Base64.getEncoder().encodeToString(currentAuthor.getAvatar());
-                    req.setAttribute("dataAvatar", base64);
-                    req.getSession().setAttribute("author", currentAuthor);
-                    req.setAttribute("NOTIFICATION", "registration was successful".toUpperCase());
-                    req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
-                }
             }
         }
     }
+}
 
 

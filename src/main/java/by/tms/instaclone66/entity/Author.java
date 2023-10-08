@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Author {
     private Integer id;
-    private String userName;
+    private String username;
     private String email;
     private String password;
     private Part avatar;
@@ -26,8 +26,8 @@ public class Author {
         this.password = password;
     }
 
-    public Author(String userName, String email, String password, Part avatar, String bio, LocalDate registrationOfDate) {
-        this.userName = userName;
+    public Author(String username, String email, String password, Part avatar, String bio, LocalDate registrationOfDate) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.avatar = avatar;

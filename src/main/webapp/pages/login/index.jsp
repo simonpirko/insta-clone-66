@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<jsp:include page="../../header/header.jsp"></jsp:include>
+<jsp:include page="../../header/_header.jsp"></jsp:include>
 <div class="container col-md-3 col-md-offset-3" style="overflow: auto">
     <h1>Login Form</h1>
     <div class="alert alert-success center" role="alert">
@@ -49,6 +49,6 @@
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
 </div>
-<jsp:include page="../../footer/footer.jsp"></jsp:include>
+<jsp:include page="../../footer/_footer.jsp"></jsp:include>
 </body>
 </html>

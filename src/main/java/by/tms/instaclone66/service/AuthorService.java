@@ -30,12 +30,12 @@ public class AuthorService {
         authorDaoJdbc.save(author);
     }
 
-    public Optional<AuthorDto> getAuthorByEmail(Author author) throws IOException {
-        return authorDaoJdbc.findAuthorByEmail(author.getEmail());
+    public Optional<AuthorDto> getAuthorByEmail(String email) throws IOException {
+        return authorDaoJdbc.findAuthorByEmail(email);
     }
 
 
-    public List<Author> printingAuthorData(){
+    public List<Author> printingAuthorData() {
         return null;
     }
 }

@@ -53,20 +53,20 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Title</th>
-                <th>Target Date</th>
-                <th>Stories Status</th>
-                <th>Actions</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Avatar</th>
+                <th>Registration date</th>
             </tr>
             </thead>
             <tbody>
             <!--   for (Stories stories: Stories) {  -->
-            <c:forEach var="todo" items="${Stories}"><%--listStories--%>
+            <c:forEach var="todo" items="${peoples}"><%--listStories--%>
 
                 <tr>
-                    <td><c:out value="${Stories.title}" /></td><%--stories.--%>
-                    <td><c:out value="${Stories.targetDate}" /></td>
-                    <td><c:out value="${Stories.status}" /></td>
+                    <td><c:out value="${peoples.username}" /></td><%--stories.--%>
+                    <td><c:out value="${peoples.email}" /></td>
+                    <td><c:out value="${peoples.registrationOfDate}" /></td>
 
                     <td><a href="edit?id=<c:out value='${Stories.id}' />">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp; <a
@@ -83,6 +83,6 @@
     </div>
 </div>
 
-<jsp:include page="../../footer/footer.jsp"></jsp:include>
+<jsp:include page="../../footer/_footer.jsp"></jsp:include>
 </body>
 </html>
