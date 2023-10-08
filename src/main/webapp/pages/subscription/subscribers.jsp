@@ -25,7 +25,7 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
-    width: 80px;
+    width: 250px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -38,7 +38,7 @@
     <h3 class="text-center">List of Subscribers</h3>
     <hr>
     <div class="container text-left">
-      <a href="<%=request.getContextPath()%>/new"
+      <a href="<%=request.getContextPath()%>/add_publication"
          class="btn btn-success">Add publication</a>
     </div>
     <br>

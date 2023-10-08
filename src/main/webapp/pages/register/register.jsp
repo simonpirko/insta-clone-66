@@ -56,7 +56,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             padding: 5px;
-            width: 250px;
+            width: 350px;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -103,7 +103,7 @@
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label>Registration date</label> <label>
+                            <label>Registration date: </label> <label>
                             <input type="text"
                                    value="<c:out value='${author.registrationOfDate}' />"
                                    class="form-control"

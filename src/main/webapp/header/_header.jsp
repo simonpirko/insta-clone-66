@@ -78,6 +78,9 @@
             </div>
 
             <c:if test="${sessionScope.author != null}">
+                <li><a href="${pageContext.request.contextPath}/add_publication"
+                       class="nav-link">Add new publication</a></li>
+
                 <li><a href="${pageContext.request.contextPath}/subscribers"
                        class="nav-link">Subscribers</a></li>
 

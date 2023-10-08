@@ -4,25 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.servlet.http.Part;
 import java.time.LocalDate;
 import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Post {
+public class PostDto {
     private Integer id;
     private AuthorDto author;
-    private Part content;
+    private String content;
     private String description;
     private LocalDate publicationDate;
     private List<Comment> comments;
     private List<Like> likes;
-
-    public Post(AuthorDto author, Part content, String description, LocalDate publicationDate) {
-        this.author = author;
-        this.content = content;
-        this.description = description;
-        this.publicationDate = publicationDate;
-    }
 }
+
