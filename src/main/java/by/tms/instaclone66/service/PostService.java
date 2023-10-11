@@ -1,6 +1,6 @@
 package by.tms.instaclone66.service;
 
-import by.tms.instaclone66.dao.PostDaoJdbc;
+import by.tms.instaclone66.dao.PublicationDaoJdbc;
 
 public class PostService {
     private static PostService instance;
@@ -15,7 +15,7 @@ public class PostService {
         }
         return instance;
     }
-    PostDaoJdbc postDaoJdbc = PostDaoJdbc.getInstance();
+    PublicationDaoJdbc postDaoJdbc = PublicationDaoJdbc.getInstance();
 
     public void deletePost(int id) {
         postDaoJdbc.deletePost(id);

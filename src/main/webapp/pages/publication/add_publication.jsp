@@ -68,7 +68,8 @@
                 <th>Content</th>
                 <th>Description</th>
                 <th>Post of date</th>
-                <th>Click to subscribe</th>
+                <th>Option</th>
+                <th>Comments</th>
             </tr>
             </thead>
             <tbody>
@@ -78,11 +79,24 @@
                     <td><c:out value="${posts.description}"/></td>
                     <td><c:out value="${posts.postOfDate}"/></td>
                     <td>
-                        <form method="post" action="<c:url value='/unsubscribe'/>">
+                        <form method="post" action="<c:url value='/del-publication'/>">
                             <label>
                                 <input type="number" hidden name="id" value="${posts.id}"/>
                             </label>
-                            <input type="submit" name="unsubscribe" value="Unsubscribe"/>
+                            <input type="submit" name="delete" value="Delete"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="<c:url value='/add-comment'/>">
+                            <label>
+                                <textarea name="comment"></textarea>
+                            </label>
+                            <input type="hidden" name="postId" value="${posts.id}">
+                                <input type="submit" value="Add a comment">
+                        </form>
+                        <form method="post" action="<c:url value='/del-comment'/>">
+                            <input type="hidden" name="postId" value="${posts.id}">
+                            <input type="submit" value="Delete comment">
                         </form>
                     </td>
                 </tr>

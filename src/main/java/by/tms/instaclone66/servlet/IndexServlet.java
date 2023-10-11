@@ -1,7 +1,6 @@
 package by.tms.instaclone66.servlet;
 
-import by.tms.instaclone66.entity.Author;
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.entity.User;
 import by.tms.instaclone66.service.AuthorService;
 
 import javax.servlet.ServletException;
@@ -9,9 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Optional;
 
 /**
@@ -33,10 +30,10 @@ public class IndexServlet extends HttpServlet {
 
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        Author author = new Author(email, password);
-        Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author.getEmail());
+        User user = new User(email, password);
+        Optional<User> findAuthorByEmail = authorService.getAuthorByEmail(user.getEmail());
         if (findAuthorByEmail.isPresent()) {
-            AuthorDto currentAuthor = findAuthorByEmail.get();
+            User currentAuthor = findAuthorByEmail.get();
             if (currentAuthor.getPassword().equals(password)) {
                 /*req.setAttribute("dataAvatar", currentAuthor.getAvatar());*/
                 req.getSession().setAttribute("author", currentAuthor);

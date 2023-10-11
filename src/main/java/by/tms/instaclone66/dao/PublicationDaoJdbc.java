@@ -3,32 +3,24 @@ package by.tms.instaclone66.dao;
 import by.tms.instaclone66.entity.*;
 import by.tms.instaclone66.utils.JdbcUtils;
 
-import javax.servlet.http.Part;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-import static by.tms.instaclone66.utils.JdbcUtils.getConnection;
+public class PublicationDaoJdbc implements PublicationDao {
+    private static PublicationDaoJdbc instance;
 
-public class PostDaoJdbc implements PostDao {
-    private static PostDaoJdbc instance;
-
-    private PostDaoJdbc() {
+    private PublicationDaoJdbc() {
 
     }
 
-    public static PostDaoJdbc getInstance() {
+    public static PublicationDaoJdbc getInstance() {
         if (instance == null) {
-            instance = new PostDaoJdbc();
+            instance = new PublicationDaoJdbc();
         }
         return instance;
     }
@@ -41,15 +33,15 @@ public class PostDaoJdbc implements PostDao {
 
 
     @Override
-    public void save(Post post) throws IOException {
-        Part file = post.getContent();
-        InputStream fileContent = file.getInputStream();
+    public void save(Publication publication) throws IOException {
+/*        Part file = publication.getContent();
+        InputStream fileContent = file.getInputStream();*/
         try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_POST);
-            preparedStatement.setInt(1, post.getAuthorDto().getId());
-            preparedStatement.setBinaryStream(2, fileContent);
-            preparedStatement.setString(3, post.getDescription());
-            preparedStatement.setDate(4, java.sql.Date.valueOf(post.getPublicationDate()));
+            preparedStatement.setInt(1, publication.getUser().getId());
+            preparedStatement.setString(2, publication.getContent());
+            preparedStatement.setString(3, publication.getDescription());
+            preparedStatement.setDate(4, java.sql.Date.valueOf(publication.getPostOfDate()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,31 +60,34 @@ public class PostDaoJdbc implements PostDao {
     }
 
     @Override
-    public List<PostDto> selectAllPostByAuthorId(AuthorDto authorDto) {
-        List<PostDto> postDtos = new ArrayList<>();
+    public List<Publication> selectAllPostByAuthorId(User user) {
+        List<Publication> publications = new ArrayList<>();
         try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POST_LIKE_COMMENT);
-            preparedStatement.setInt(1, authorDto.getId());
+            preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String base64 = Base64.getEncoder().encodeToString(resultSet.getBytes(2));
-                PostDto postDto = new PostDto(resultSet.getInt(1), base64,
-                        resultSet.getString(3), resultSet.getDate(4).toLocalDate());
-                postDtos.add(postDto);
+                /*String base64 = Base64.getEncoder().encodeToString(resultSet.getBytes(2));*/
+                Publication publication = new Publication(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4).toLocalDate());
+                publications.add(publication);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return postDtos;
+        return publications;
     }
 
     @Override
-    public List<Comment> selectAllCommentByPostId(AuthorDto authorDto) {
+    public List<Comment> selectAllCommentByPostId(User authorDto) {
         return null;
     }
 
     @Override
-    public List<Like> selectAllLikesByPostId(AuthorDto authorDto) {
+    public List<Like> selectAllLikesByPostId(User authorDto) {
         return null;
     }
 }
