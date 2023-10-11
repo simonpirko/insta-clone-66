@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Comment {
     private Integer id;
-    private AuthorDto authorDto;
+    private User authorDto;
     private String comment;
     private LocalDate dateOfComment;
 

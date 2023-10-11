@@ -1,14 +1,17 @@
 package by.tms.instaclone66.dao;
 
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.entity.User;
 
 import java.util.List;
 
 public interface SubscriptionsDao {
-    List<AuthorDto> selectAllUnSubscribers(int id);
+    List<User> selectAllUnSubscribers(int id);
+
     void saveSubscription(int idFollowing, int idFollower);
-    List<AuthorDto> collectAllSubscriptions(int idFollowing);
-    List<AuthorDto> collectAllSubscribers (int idFollowing);
+
+    List<User> collectAllSubscriptions(int idFollowing);
+
+    List<User> collectAllSubscribers(int idFollowing);
 
     void deleteSubscription(int idFollowing, int idFollower);
 

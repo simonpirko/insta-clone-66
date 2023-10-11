@@ -1,6 +1,6 @@
 package by.tms.instaclone66.servlet;
 
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.entity.User;
 import by.tms.instaclone66.service.SubscriptionsService;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ public class SubscribeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AuthorDto authorDto = (AuthorDto) req.getSession().getAttribute("author");
+        User authorDto = (User) req.getSession().getAttribute("author");
         req.setAttribute("peoples", subscriptionsService.showAllSubscriptions(authorDto.getId()));
         req.getServletContext().getRequestDispatcher("/pages/subscription/unsubscribe.jsp").forward(req, resp);
     }
@@ -25,7 +25,7 @@ public class SubscribeServlet extends HttpServlet {
     //following - подписчик
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AuthorDto author = (AuthorDto) req.getSession().getAttribute("author");
+        User author = (User) req.getSession().getAttribute("author");
         int idFollower = Integer.parseInt(req.getParameter("id"));
         subscriptionsService.subscribe(idFollower, author.getId());
         req.setAttribute("peoples", subscriptionsService.showAllSubscriptions(author.getId()));

@@ -11,6 +11,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Like {
     private Integer id;
-    private AuthorDto authorDto;
+    private User authorDto;
     private LocalDate dateOfLike;
 }

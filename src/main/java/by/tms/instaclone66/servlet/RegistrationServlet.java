@@ -1,8 +1,8 @@
 package by.tms.instaclone66.servlet;
 
-import by.tms.instaclone66.entity.Author;
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.entity.User;
 import by.tms.instaclone66.service.AuthorService;
+import by.tms.instaclone66.service.FhotoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Optional;
 
 @WebServlet(value = "/register")
@@ -24,14 +22,15 @@ import java.util.Optional;
 public class RegistrationServlet extends HttpServlet {
 
     private final AuthorService authorService = AuthorService.getInstance();
+    private final FhotoService fhotoService = FhotoService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("author") != null) {
-            AuthorDto author = (AuthorDto) req.getSession().getAttribute("author");
-            Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(author.getEmail());
+            User author = (User) req.getSession().getAttribute("author");
+            Optional<User> findAuthorByEmail = authorService.getAuthorByEmail(author.getEmail());
             if (findAuthorByEmail.isPresent()) {
-                AuthorDto currentUser = findAuthorByEmail.get();
+                User currentUser = findAuthorByEmail.get();
                 req.setAttribute("dataAvatar", currentUser.getAvatar());
                 req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
             }
@@ -44,24 +43,22 @@ public class RegistrationServlet extends HttpServlet {
         String userName = req.getParameter("username");
         String email = req.getParameter("email").toLowerCase();
         String password = req.getParameter("password");
-        Part avatar = req.getPart("avatar");
+        Part avatarPart = req.getPart("avatar");
+        String avatar = fhotoService.convertAvatar(avatarPart);
         String bio = req.getParameter("bio");
-        /*        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");*/
         LocalDate registrationOfDate = LocalDate.now();
-        /*        String registrationOfDate = today.format(formatter);*/
 
-        Author author = new Author(userName, email, password, avatar, bio, registrationOfDate);
+        User user = new User(userName, email, password, avatar, bio, registrationOfDate);
 
-        Optional<AuthorDto> findAuthorByEmail = authorService.getAuthorByEmail(email);
+        Optional<User> findAuthorByEmail = authorService.getAuthorByEmail(email);
         if (findAuthorByEmail.isPresent()) {
             req.setAttribute("NOTIFICATION", "choose a different email address".toUpperCase());
             req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);
         } else {
-            authorService.create(author);
-            Optional<AuthorDto> registeredUser = authorService.getAuthorByEmail(email);
+            authorService.create(user);
+            Optional<User> registeredUser = authorService.getAuthorByEmail(email);
             if (registeredUser.isPresent()) {
-                AuthorDto currentAuthor = registeredUser.get();
-                /*req.setAttribute("dataAvatar", currentAuthor.getAvatar());*/
+                User currentAuthor = registeredUser.get();
                 req.getSession().setAttribute("author", currentAuthor);
                 req.setAttribute("NOTIFICATION", "registration was successful".toUpperCase());
                 req.getServletContext().getRequestDispatcher("/pages/register/register.jsp").forward(req, resp);

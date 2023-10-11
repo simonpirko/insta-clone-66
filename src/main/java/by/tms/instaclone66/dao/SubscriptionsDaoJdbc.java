@@ -1,6 +1,6 @@
 package by.tms.instaclone66.dao;
 
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.entity.User;
 import by.tms.instaclone66.utils.JdbcUtils;
 
 import java.sql.*;
@@ -35,22 +35,21 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
     private static final String DELETE_SUBSCRIPTION = "DELETE FROM Follower WHERE following_id = ? AND follower_id = ?";
 
     @Override
-    public List<AuthorDto> selectAllUnSubscribers(int id) {
-        List<AuthorDto> allAuthors = new ArrayList<>();
-        try(Connection connection = JdbcUtils.getConnection()) {
+    public List<User> selectAllUnSubscribers(int id) {
+        List<User> allAuthors = new ArrayList<>();
+        try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_UNSUBSCRIBED);
-            preparedStatement.setInt(1,id);
-            preparedStatement.setInt(2,id);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                int idAuthor = resultSet.getInt(1);
-                String username = resultSet.getString(2);
-                String email = resultSet.getString(3);
-                String base64 = Base64.getEncoder().encodeToString(resultSet.getBytes(5));
-                String bio = resultSet.getString(6);
-                LocalDate registrationDate = resultSet.getDate(7).toLocalDate();
-                AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
-                allAuthors.add(authorDto);
+            while (resultSet.next()) {
+                User user = new User(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getDate(7).toLocalDate());
+                allAuthors.add(user);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,72 +59,71 @@ public class SubscriptionsDaoJdbc implements SubscriptionsDao {
 
     @Override
     public void saveSubscription(int idFollower, int idFollowing) {
-        try(Connection connection = JdbcUtils.getConnection()){
+        try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_FOLLOWING);
-            preparedStatement.setInt(1,idFollower);
-            preparedStatement.setInt(2,idFollowing);
+            preparedStatement.setInt(1, idFollower);
+            preparedStatement.setInt(2, idFollowing);
             preparedStatement.executeUpdate();
-        } catch ( SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<AuthorDto> collectAllSubscriptions(int idFollowing) {
-        List<AuthorDto> subscriptions = new ArrayList<>();
+    public List<User> collectAllSubscriptions(int idFollowing) {
+        List<User> subscriptions = new ArrayList<>();
         try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUBSCRIBE);
-            preparedStatement.setInt(1,idFollowing);
+            preparedStatement.setInt(1, idFollowing);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                int idAuthor = resultSet.getInt(1);
-                String username = resultSet.getString(2);
-                String email = resultSet.getString(3);
-                String base64 = Base64.getEncoder().encodeToString(resultSet.getBytes(5));
-                String bio = resultSet.getString(6);
-                LocalDate registrationDate = resultSet.getDate(7).toLocalDate();
-                AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
-                subscriptions.add(authorDto);
+            while (resultSet.next()) {
+                User user = new User(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getDate(7).toLocalDate());
+                subscriptions.add(user);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return subscriptions;
     }
 
     @Override
-    public List<AuthorDto> collectAllSubscribers(int idFollowing) {
-        List<AuthorDto> subscribers = new ArrayList<>();
-        try(Connection connection = JdbcUtils.getConnection()) {
+    public List<User> collectAllSubscribers(int idFollowing) {
+        List<User> subscribers = new ArrayList<>();
+        try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUBSCRIBERS);
-            preparedStatement.setInt(1,idFollowing);
-            preparedStatement.setInt(2,idFollowing);
+            preparedStatement.setInt(1, idFollowing);
+            preparedStatement.setInt(2, idFollowing);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                int idAuthor = resultSet.getInt(1);
-                String username = resultSet.getString(2);
-                String email = resultSet.getString(3);
-                String base64 = Base64.getEncoder().encodeToString(resultSet.getBytes(5));
-                String bio = resultSet.getString(6);
-                LocalDate registrationDate = resultSet.getDate(7).toLocalDate();
-                AuthorDto authorDto = new AuthorDto(idAuthor,username,email,base64,bio,registrationDate);
-                subscribers.add(authorDto);
+            while (resultSet.next()) {
+                User user = new User(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getDate(7).toLocalDate());
+                subscribers.add(user);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        
+
         return subscribers;
     }
 
     @Override
     public void deleteSubscription(int idFollowing, int idFollower) {
-        try (Connection connection = JdbcUtils.getConnection()){
+        try (Connection connection = JdbcUtils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SUBSCRIPTION);
-            preparedStatement.setInt(1,idFollowing);
-            preparedStatement.setInt(2,idFollower);
+            preparedStatement.setInt(1, idFollowing);
+            preparedStatement.setInt(2, idFollower);
             preparedStatement.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

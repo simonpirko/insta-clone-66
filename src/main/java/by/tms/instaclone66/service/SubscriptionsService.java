@@ -1,7 +1,7 @@
 package by.tms.instaclone66.service;
 
 import by.tms.instaclone66.dao.SubscriptionsDaoJdbc;
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.entity.User;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class SubscriptionsService {
         return instance;
     }
 
-    public List<AuthorDto> showAllAuthors(int id) {
+    public List<User> showAllAuthors(int id) {
         return subscriptionsDaoJdbc.selectAllUnSubscribers(id);
     }
 
@@ -33,11 +33,11 @@ public class SubscriptionsService {
         subscriptionsDaoJdbc.deleteSubscription(idFollowing, idFollower);
     }
 
-    public List<AuthorDto> showAllSubscriptions(int idFollowing) {
+    public List<User> showAllSubscriptions(int idFollowing) {
         return subscriptionsDaoJdbc.collectAllSubscriptions(idFollowing);
     }
 
-    public List<AuthorDto> showAllSubscribers(int idFollowing){
+    public List<User> showAllSubscribers(int idFollowing){
         return subscriptionsDaoJdbc.collectAllSubscribers(idFollowing);
     }
 

@@ -1,8 +1,7 @@
 package by.tms.instaclone66.service;
 
-import by.tms.instaclone66.dao.AuthorDaoJdbc;
-import by.tms.instaclone66.entity.Author;
-import by.tms.instaclone66.entity.AuthorDto;
+import by.tms.instaclone66.dao.UserDaoJdbc;
+import by.tms.instaclone66.entity.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Optional;
 public class AuthorService {
     private static final String EMAIL_ALREADY_REGISTERED_MSG = "Пользователь с таким email уже зарегистрирован !";
     private static final String REGISTRATION_COMPLETED_SUCCESSFULLY_MSG = "Регистрация прошла успешно ! ";
-    AuthorDaoJdbc authorDaoJdbc = AuthorDaoJdbc.getInstance();
+    UserDaoJdbc authorDaoJdbc = UserDaoJdbc.getInstance();
     private static AuthorService instance;
 
     private AuthorService() {
@@ -26,16 +25,16 @@ public class AuthorService {
     }
 
 
-    public void create(Author author) throws IOException {
-        authorDaoJdbc.save(author);
+    public void create(User user) throws IOException {
+        authorDaoJdbc.save(user);
     }
 
-    public Optional<AuthorDto> getAuthorByEmail(String email) throws IOException {
+    public Optional<User> getAuthorByEmail(String email) throws IOException {
         return authorDaoJdbc.findAuthorByEmail(email);
     }
 
 
-    public List<Author> printingAuthorData() {
+    public List<User> printingAuthorData() {
         return null;
     }
 }

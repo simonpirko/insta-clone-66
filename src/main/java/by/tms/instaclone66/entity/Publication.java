@@ -9,17 +9,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PostDto {
+public class Publication {
     private Integer id;
-    private AuthorDto author;
+    private User user;
     private String content;
     private String description;
     private LocalDate postOfDate;
     private List<Comment> comments;
     private List<Like> likes;
 
-    public PostDto(Integer id, String content, String description, LocalDate postOfDate) {
+    public Publication(Integer id, String content, String description, LocalDate postOfDate) {
         this.id = id;
+        this.content = content;
+        this.description = description;
+        this.postOfDate = postOfDate;
+    }
+
+    public Publication(User author, String content, String description, LocalDate postOfDate) {
+        this.user = author;
         this.content = content;
         this.description = description;
         this.postOfDate = postOfDate;
