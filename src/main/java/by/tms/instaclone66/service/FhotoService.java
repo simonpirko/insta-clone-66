@@ -23,4 +23,6 @@ public class FhotoService {
         InputStream fileContent = avatar.getInputStream();
         return Base64.getEncoder().encodeToString(fileContent.readAllBytes());
     }
+
+    //test
 }
